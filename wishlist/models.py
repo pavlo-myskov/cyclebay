@@ -28,9 +28,11 @@ class Wishlist(models.Model):
 
 
 @receiver(post_save, sender=get_user_model())
-def create_wishlist(sender, instance, created, **kwargs):
+def create_wishlist(sender, instance, created, raw=False, **kwargs):
     """
     Create a wishlist for each new user using the post_save signal
     """
+    if raw:
+        return
     if created:
         Wishlist.objects.create(user=instance)
